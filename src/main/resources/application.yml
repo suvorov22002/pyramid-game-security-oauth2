@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: ${PROFILE:dev,postgres}
+
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          oauth2: debug
