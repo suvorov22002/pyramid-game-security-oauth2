@@ -29,3 +29,5 @@ We use OpenSSL to generate an RSA-Key keypair.
     ```bash
        openssl pkcs8 -topk8 -inform PEM -outform PEM -in private-key.pem -out private-key.pem -nocrypt
     ```
+
+You can see [Api documentation](http:127.0.0.1:6300/swagger-ui/index.html) locally.
