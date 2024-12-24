@@ -7,6 +7,7 @@ import com.pyramid.tech.domain.registration.model.AppUser;
 import com.pyramid.tech.domain.registration.model.enums.Role;
 import com.pyramid.tech.domain.registration.repository.UserRepository;
 import com.pyramid.tech.domain.registration.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -38,12 +39,10 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
 
     @Override
-    public AppUser save(UserDto.UserRequest userrequest) {
+    public AppUser save(AppUser user) {
 
-        AppUser user = new AppUser();
-        user.setRole(Objects.nonNull(userrequest.role()) ? Role.valueOf(userrequest.role()) : Role.USER);
-        user.setUsername(userrequest.username());
-        user.setPassword(encoder.encode(userrequest.password()));
+
+        user.setPassword(encoder.encode(user.getPassword()));
         user.setCreatedAt(LocalDateTime.now());
 
         return userRepository.save(user);
@@ -59,7 +58,7 @@ public class UserServiceImpl implements UserService {
     public AppUser selectUser(Long id) {
         return userRepository
                 .findById(id)
-                .orElseThrow(() -> new IllegalStateException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
     @Override

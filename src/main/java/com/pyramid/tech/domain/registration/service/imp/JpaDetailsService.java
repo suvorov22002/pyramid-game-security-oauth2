@@ -1,4 +1,4 @@
-package com.pyramid.tech.domain.registration.service;
+package com.pyramid.tech.domain.registration.service.imp;
 
 import com.pyramid.tech.domain.registration.repository.UserRepository;
 import lombok.AllArgsConstructor;

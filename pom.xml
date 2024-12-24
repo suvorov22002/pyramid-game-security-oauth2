@@ -34,6 +34,7 @@
 		<h2.version>2.3.232</h2.version>
 		<springdoc-openapi.version>2.1.0</springdoc-openapi.version>
 		<flywaydb.version>11.1.0</flywaydb.version>
+		<modelmapper.version>3.2.2</modelmapper.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -126,6 +127,12 @@
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>${modelmapper.version}</version>
 		</dependency>
 	</dependencies>
 

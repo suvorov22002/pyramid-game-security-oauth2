@@ -2,6 +2,7 @@ package com.pyramid.tech.domain.registration.controller;
 
 import com.pyramid.tech.domain.registration.dto.UserDto;
 import com.pyramid.tech.domain.registration.model.AppUser;
+import com.pyramid.tech.domain.registration.model.enums.Role;
 import com.pyramid.tech.domain.registration.service.UserService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Suvorov Vassilievitch
@@ -44,9 +46,13 @@ public class UserController {
     }
 
     @PostMapping("")
-    ResponseEntity<UserDto.Response> createUser(@RequestBody UserDto.UserRequest request) {
+    ResponseEntity<UserDto.Response> createUser(@RequestBody UserDto.UserRequest userrequest) {
 
-        AppUser u = userService.save(request);
+        AppUser user = new AppUser();
+        user.setRole(Objects.nonNull(userrequest.role()) ? Role.valueOf(userrequest.role()) : Role.USER);
+        user.setUsername(userrequest.username());
+        user.setPassword(userrequest.password());
+        AppUser u = userService.save(user);
 
         return ResponseEntity.ok(new UserDto.Response(
                 u.getUsername(),
