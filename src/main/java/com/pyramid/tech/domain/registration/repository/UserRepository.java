@@ -1,4 +1,13 @@
 package com.pyramid.tech.domain.registration.repository;
 
-public interface UserRepository {
+import com.pyramid.tech.domain.registration.model.AppUser;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface UserRepository extends JpaRepository<AppUser, Long> {
+
+    Optional<AppUser> findByUsername(String username);
 }

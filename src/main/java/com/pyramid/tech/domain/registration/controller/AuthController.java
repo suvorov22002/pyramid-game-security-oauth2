@@ -12,8 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 /**
  * Created by Suvorov Vassilievitch
  * Date: 23/12/2024
@@ -24,7 +22,7 @@ import java.util.Map;
 @RequestMapping("/api/auth")
 @Slf4j
 @RequiredArgsConstructor
-public class UserController {
+public class AuthController {
 
     private final TokenService tokenService;
     private final AuthenticationManager manager;
@@ -50,8 +48,4 @@ public class UserController {
 
     }
 
-    @GetMapping
-    String home() {
-        return "home";
-    }
 }
