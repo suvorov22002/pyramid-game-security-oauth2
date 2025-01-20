@@ -4,19 +4,22 @@ import com.pyramid.tech.core.auth.RsaKeyConfigProperties;
 import com.pyramid.tech.domain.registration.model.AppUser;
 import com.pyramid.tech.domain.registration.model.enums.Role;
 import com.pyramid.tech.domain.registration.repository.UserRepository;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@EnableAspectJAutoProxy
 @EnableConfigurationProperties(RsaKeyConfigProperties.class)
 @SpringBootApplication
 public class PyramidGameSecurityOauth2Application {
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(PyramidGameSecurityOauth2Application.class, args);

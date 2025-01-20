@@ -2,12 +2,37 @@ spring:
   application:
     name: pyramid-game-security-oauth2
   datasource:
-    main:
-      driver-class-name: org.postgresql.Driver
-      jdbc-url: ${DB_URL}
+      url: ${DB_URL}
       password: ${DB_PASSWORD}
-      pool-size: 30
       username: ${DB_USERNAME}
+      driver-class-name: org.postgresql.Driver
+      type: com.zaxxer.hikari.HikariDataSource
+      hikari:
+        pool-name: ConnPool
+        driver-class-name: org.postgresql.Driver
+ #       jdbc-url: ${DB_URL}
+#        password: ${DB_PASSWORD}
+#        username: ${DB_USERNAME}
+        minimum-idle: 2 #minimum number of idle connections maintained by HikariCP in a connection pool
+        connection-timeout: 30000 #maximum number of milliseconds that a client will wait for a connection
+        idle-timeout: 30000 #maximum idle time for connection
+        max-lifetime: 2000000 # maximum lifetime in milliseconds of a connection in the pool after it is closed.
+        maximum-pool-size: 20 #limite le nombre total de connexions simultanées que ce pool conservera.les valeurs de ce paramètre sont très variables en fonction de la conception, de l'infrastructure et de la base de données
+        auto-commit: true #default auto-commit behavior.
+        source:
+          socket-timeout: 15
+        connection-test-query: select 1 from pyram_user
+        data-source-properties:
+          cachePrepStmts: true
+          cacheResultSetMetadata: true
+          cacheServerConfiguration: true
+          elideSetAutoCommits: true
+          maintainTimeStats: false
+          prepStmtCacheSize: 250
+          prepStmtCacheSqlLimit: 2048
+          rewriteBatchedStatements: true
+          useLocalSessionState: true
+          useServerPrepStmts: true
   jpa:
     hibernate:
       ddl-auto: none
@@ -32,12 +57,16 @@ rsa:
   private-key: classpath:certs/private.pem
   public-key: classpath:certs/public.pem
 
-  logging:
-    level:
-      org:
-        springframework:
-          security: TRACE
-          jdbc: TRACE
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
+        jdbc: TRACE
+    com:
+      zaxxer:
+        hikari: TRACE
+        hikari.HikariConfig: DEBUG
 
 springdoc:
   api-docs:

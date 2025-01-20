@@ -1,10 +1,6 @@
 package com.pyramid.tech.domain.registration.service.imp;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.pyramid.tech.core.config.Encoders;
-import com.pyramid.tech.domain.registration.dto.UserDto;
 import com.pyramid.tech.domain.registration.model.AppUser;
-import com.pyramid.tech.domain.registration.model.enums.Role;
 import com.pyramid.tech.domain.registration.repository.UserRepository;
 import com.pyramid.tech.domain.registration.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by Suvorov Vassilievitch
