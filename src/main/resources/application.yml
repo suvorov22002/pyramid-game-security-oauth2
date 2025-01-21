@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ${PROFILE:dev,postgres}
+    active: ${PROFILE:default,postgres}
 
 logging:
   level:

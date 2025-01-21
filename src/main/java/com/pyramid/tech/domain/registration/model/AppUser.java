@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,10 +21,10 @@ import java.util.Collection;
  */
 @Getter
 @Setter
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "USER_NAME" }) })
-@Entity(name = "PYRAM_USER")
+@Table(name = "PYRAM_USER", uniqueConstraints = { @UniqueConstraint(columnNames = { "USER_NAME" }) })
+@Entity
 @NoArgsConstructor
-public class AppUser extends BaseEntity implements UserDetails {
+public class AppUser extends BaseEntity implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,21 +41,21 @@ public class AppUser extends BaseEntity implements UserDetails {
     @Column(name = "ENABLED")
     private Boolean enabled = Boolean.TRUE;
 
-    @Column(name = "LOCKED")
-    private Boolean locked = Boolean.FALSE;
+    @Column(name = "ACCOUNT_EXPIRED")
+    private boolean accountExpired = Boolean.FALSE;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "ROLE")
-    private Role role = Role.USER;
+    @Column(name = "ACCOUNT_LOCKED")
+    private boolean accountLocked = Boolean.FALSE;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    @Column(name = "CREDENTIALS_EXPIRED")
+    private boolean credentialsExpired = Boolean.FALSE;
 
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(this.role.name()));
-        return authorities;
-
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "USERS_AUTHORITIES", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID"))
+    @OrderBy
+    @JsonIgnore
+    private Collection<Authority> authorities;
 
     @Override
     public String getUsername() {
@@ -64,5 +65,20 @@ public class AppUser extends BaseEntity implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 }

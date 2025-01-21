@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 public class BaseEntity {
 
     private LocalDateTime createdAt;
-    private String createdBy;
-    private LocalDateTime updateAt;
-    private String updateBy;
+    //private String createdBy;
+    //private LocalDateTime updateAt;
+    //private String updateBy;
 
 }

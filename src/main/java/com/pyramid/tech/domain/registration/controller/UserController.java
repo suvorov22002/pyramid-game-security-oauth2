@@ -28,6 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Getter
 @Setter
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;
@@ -38,13 +39,15 @@ public class UserController {
     ResponseEntity<List<UserDto.Response>> selectAllUsers() {
 
         List<AppUser> users = userService.findAll();
+        System.out.println("ALL USSSSSSSSSSSSSER: " + users.size());
         List<UserDto.Response> responses = users.stream()
                 .map(u -> new UserDto.Response(
                         u.getUsername(),
-                        u.getRole().name(),
+                        u.getPassword(),
                         u.getEnabled()
                 ))
         //        .map(u -> modelMapper.map(u, UserDto.Response.class))
+                .peek(System.out::println)
                 .toList();
 
         return ResponseEntity.ok(responses);
@@ -58,7 +61,7 @@ public class UserController {
         AppUser user = userService.selectUserByUsername(username);
         UserDto.Response response = new UserDto.Response(
                 user.getUsername(),
-                user.getRole().name(),
+                "ADMIN",
                 user.getEnabled());
 
         return ResponseEntity.ok(response);
@@ -72,7 +75,7 @@ public class UserController {
         AppUser user = userService.selectUser(userId);
         UserDto.Response response = new UserDto.Response(
                 user.getUsername(),
-                user.getRole().name(),
+                "ADMIN",
                 user.getEnabled());
 
         return ResponseEntity.ok(response);
@@ -94,7 +97,7 @@ public class UserController {
 
         return ResponseEntity.ok(new UserDto.Response(
                 u.getUsername(),
-                u.getRole().name(),
+                "ADMIN",
                 u.getEnabled()
         ));
     }

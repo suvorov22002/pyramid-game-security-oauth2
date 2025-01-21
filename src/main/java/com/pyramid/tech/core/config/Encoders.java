@@ -21,7 +21,7 @@ public class Encoders {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+    //@Bean
     public PasswordEncoder oauthClientPassWordEncoder() {
         return new BCryptPasswordEncoder(4);
     }

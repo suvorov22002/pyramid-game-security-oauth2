@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.core.SpringVersion;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableAspectJAutoProxy
@@ -28,9 +29,10 @@ public class PyramidGameSecurityOauth2Application {
 	//@Bean
 	CommandLineRunner run(@Qualifier("userPassWordEncoder") PasswordEncoder encoder) {
 		return args -> {
-			String rawPassword = "suvorov2024@@";
+			String rawPassword = "modifier1234";
 			String encodePassword = encoder.encode(rawPassword);
 
+			//System.out.println("Encoded: " + SpringVersion.getVersion());
 			System.out.println("Encoded: " + encodePassword);
 		};
 	}
@@ -40,7 +42,7 @@ public class PyramidGameSecurityOauth2Application {
 		return args -> {
 
 			AppUser user = new AppUser();
-			user.setRole(Role.ADMIN);
+			//user.setRole(Role.ADMIN);
 			user.setUsername("adminuser");
 			user.setPassword(encoder.encode("adminuser"));
 			//user.setId(2L);
