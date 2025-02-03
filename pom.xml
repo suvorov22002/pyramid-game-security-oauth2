@@ -35,6 +35,7 @@
 		<springdoc-openapi.version>2.8.3</springdoc-openapi.version>
 		<flywaydb.version>11.1.0</flywaydb.version>
 		<modelmapper.version>3.2.2</modelmapper.version>
+        <memcached.version>2.12.3</memcached.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -148,6 +149,12 @@
 			<artifactId>modelmapper-module-record</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+
+        <dependency>
+            <groupId>net.spy</groupId>
+            <artifactId>spymemcached</artifactId>
+            <version>${memcached.version}</version>
+        </dependency>
 
 	</dependencies>
 

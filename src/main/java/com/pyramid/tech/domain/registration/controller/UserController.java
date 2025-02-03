@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,9 +38,10 @@ public class UserController {
 
     @GetMapping
     @Operation(summary = "Get All Users")
-    @CrossOrigin(origins = "http://127.0.0.1:6300")
+    @CrossOrigin(origins = "http://127.0.0.1:6300", allowedHeaders = "Authorization")
     ResponseEntity<List<UserDto.Response>> selectAllUsers() {
 
+        Date startTime = Calendar.getInstance().getTime();
         List<AppUser> users = userService.findAll();
         System.out.println("ALL USSSSSSSSSSSSSER: " + users.size());
         List<UserDto.Response> responses = users.stream()
@@ -48,8 +51,11 @@ public class UserController {
                         u.getEnabled()
                 ))
         //        .map(u -> modelMapper.map(u, UserDto.Response.class))
-                .peek(System.out::println)
+        //        .peek(System.out::println)
                 .toList();
+
+        Date endTime = Calendar.getInstance().getTime();
+        System.out.println("Time taken for the request: " + (endTime.getTime() - startTime.getTime()) + "ms");
 
         return ResponseEntity.ok(responses);
 
@@ -73,11 +79,15 @@ public class UserController {
     @Operation(summary = "Fetch User by his id")
     ResponseEntity<UserDto.Response> fetchUniqueUser(@PathVariable Long userId) {
 
+        Date startTime = Calendar.getInstance().getTime();
         AppUser user = userService.selectUser(userId);
         UserDto.Response response = new UserDto.Response(
                 user.getUsername(),
                 "ADMIN",
                 user.getEnabled());
+
+        Date endTime = Calendar.getInstance().getTime();
+        System.out.println("Time taken for the request: " + (endTime.getTime() - startTime.getTime()) + "ms");
 
         return ResponseEntity.ok(response);
 
