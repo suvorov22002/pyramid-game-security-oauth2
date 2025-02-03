@@ -65,15 +65,15 @@ public class SecurityConfig {
 
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> {
                         auth.requestMatchers("/error/**", "/swagger-ui/**", "/api-docs/**", "/h2-console/**").permitAll();
                         auth.requestMatchers("/api/auth/**", "/favicon.ico").permitAll();
                         auth.anyRequest().authenticated();
                 })
+                .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.decoder(jwtDecoder())))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.decoder(jwtDecoder())))
                 .userDetailsService(userDetailsService)
                 .httpBasic(Customizer.withDefaults())
         //        .formLogin(Customizer.withDefaults())

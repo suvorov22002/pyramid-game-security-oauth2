@@ -34,8 +34,9 @@ public class UserController {
     private final UserService userService;
     private final ModelMapper modelMapper;
 
-    @GetMapping("")
+    @GetMapping
     @Operation(summary = "Get All Users")
+    @CrossOrigin(origins = "http://127.0.0.1:6300")
     ResponseEntity<List<UserDto.Response>> selectAllUsers() {
 
         List<AppUser> users = userService.findAll();
