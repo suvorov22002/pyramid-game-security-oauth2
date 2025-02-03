@@ -31,3 +31,13 @@ We use OpenSSL to generate an RSA-Key keypair.
     ```
 
 You can see [Api documentation](http:127.0.0.1:6300/swagger-ui/index.html) locally.
+
+### Caching with MemCached
+The configuration Class of Memcached creates a CacheManager bean that override the default cache implementation
+in SpringBoot.
+memcachedAddresses variable should be initialized with the MemCached server address. For testing purposes, we run a 
+local Memcached server.
+    ```bash
+       docker pull memcached
+       docker run --name memcached-server -p 11211:11211 memcached
+    ```
