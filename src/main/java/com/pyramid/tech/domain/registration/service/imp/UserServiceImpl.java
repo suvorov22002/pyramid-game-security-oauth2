@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,6 +37,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
 
     @Override
+    @CachePut(value = "usersCache", key= "#user.id")
     public AppUser save(AppUser user) {
 
 
@@ -45,11 +49,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = "usersCache")
     public List<AppUser> findAll() {
+        System.out.println("Fetching users from database...");
         return userRepository.findAll();
     }
 
     @Override
+    @Cacheable(value = "usersCache", key = "#id")
     public AppUser selectUser(Long id) {
         return userRepository
                 .findById(id)
@@ -66,6 +73,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CacheEvict(value = "usersCache", key = "#id")
     public void delete(Long id) {
 
         AppUser user = selectUser(id);

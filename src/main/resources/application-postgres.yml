@@ -51,6 +51,12 @@ spring:
     create-schemas: true
     schemas: pyramid_owner
 
+  data:
+    redis:
+      host: "192.168.56.4"
+      port: 6379
+      timeout: 60000
+
 server:
   port: ${PORT:6300}
   error:
@@ -66,11 +72,17 @@ logging:
       springframework:
         security: TRACE
         jdbc: TRACE
+        data:
+          redis: DEBUG
     com:
       zaxxer:
         hikari: TRACE
 #        hikari.HikariConfig: DEBUG
+    io:
+      lettuce:
+        core: DEBUG
 
 springdoc:
   api-docs:
     path: /api-docs
+

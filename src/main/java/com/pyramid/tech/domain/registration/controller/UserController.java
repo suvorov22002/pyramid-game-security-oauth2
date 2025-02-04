@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +41,7 @@ public class UserController {
     @CrossOrigin(origins = "http://127.0.0.1:6300")
     ResponseEntity<List<UserDto.Response>> selectAllUsers() {
 
+        Date startTime = Calendar.getInstance().getTime();
         List<AppUser> users = userService.findAll();
         System.out.println("ALL USSSSSSSSSSSSSER: " + users.size());
         List<UserDto.Response> responses = users.stream()
@@ -50,7 +53,8 @@ public class UserController {
         //        .map(u -> modelMapper.map(u, UserDto.Response.class))
                 .peek(System.out::println)
                 .toList();
-
+        Date endTime = Calendar.getInstance().getTime();
+        System.out.println("Time taken for the request: " + (endTime.getTime() - startTime.getTime()) + "ms");
         return ResponseEntity.ok(responses);
 
     }
@@ -94,6 +98,22 @@ public class UserController {
         user.setPassword(userrequest.password());
         */
         user = modelMapper.map(userrequest, AppUser.class);
+        AppUser u = userService.save(user);
+
+        return ResponseEntity.ok(new UserDto.Response(
+                u.getUsername(),
+                "ADMIN",
+                u.getEnabled()
+        ));
+    }
+
+    @PutMapping("/{userId}")
+    @Operation(summary = "Create new User V1")
+    ResponseEntity<UserDto.Response> updateUser(@PathVariable Long userId, @RequestBody UserDto.UserRequest userrequest) {
+
+        userService.selectUser(userId);
+        AppUser user = modelMapper.map(userrequest, AppUser.class);
+        user.setId(userId);
         AppUser u = userService.save(user);
 
         return ResponseEntity.ok(new UserDto.Response(

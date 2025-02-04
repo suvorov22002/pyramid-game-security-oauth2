@@ -31,3 +31,29 @@ We use OpenSSL to generate an RSA-Key keypair.
     ```
 
 You can see [Api documentation](http:127.0.0.1:6300/swagger-ui/index.html) locally.
+
+### Caching with Redis (Remote Distributed Server)
+The Spring Cache abstraction uses annotations to define cache behavior.
+* @EnableCaching: Enables Spring's annotation-driven cache management
+* @Cacheable: Indicates that the method's return value should be cached
+* @CachePut: Updates the cache without interfering with the method execution
+* @CacheEvict: Removes data from the cache.
+
+Start the Redis Server 
+```bash 
+   docker pull redis/redis-stack-server
+   docker run --rm --name redis-stack -p 6379:6879 -p 8001:8001 redis/redis-stack-server:latest
+```
+For test purpose, we pull the Redis image from DockerHub and we start a container with that image
+running on port 6379. Redis Insight starts at port 8001.
+Connect to the running container and execute **redis-cli**
+```bash
+   docker exec -it redis-stack /bin/bash
+   root@redis-stack:/# redis-cli
+   127.0.0.1:6379> ping
+   PONG
+   127.0.0.1:6379> MODULE LIST
+   127.0.0.1:6379> keys *
+```
+   
+  
